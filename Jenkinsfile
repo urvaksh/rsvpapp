@@ -79,4 +79,3 @@ spec:
     }
   }
 }
-Update following environment variables in th
