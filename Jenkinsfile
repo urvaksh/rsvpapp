@@ -33,8 +33,7 @@ spec:
       // Instead of nkhare, use your repo name
   }
   stages {
- 
-    stage('Build') {
+     stage('Build') {
       environment {
         DOCKERHUB_CREDS = credentials('dockerhub')
        }
@@ -47,15 +46,13 @@ spec:
         }
       }
     }
- 
-    stage('Deploy staging') {
+    stage('Deploy staging') {
       environment {
         GIT_CREDS = credentials('github')
         GIT_REPO_URL = "github.com/nkhare/rsvpapp-kustomize.git"
         GIT_REPO_EMAIL = 'neependra@cloudyuga.guru'
         GIT_REPO_BRANCH = "master"
        // Update above variables with your user details
- 
       }
       steps {
         container('tools') {
@@ -70,9 +67,7 @@ spec:
         }
       }
     }
- 
     stage('Deploy to Prod') {
- 
       steps {
         input message:'Approve deployment?'
         container('tools') {
