@@ -30,9 +30,7 @@ volumes: [
     }
     stage('Deploy to Staging') {
       environment {
-          GITREPO_URL = "https://github.com/nkhare/rsvpapp-kustomize"
-          GITREPO_EMAIL = 'neependra.khare@gmail.com'
-          GITREPO_BRANCH = "master" 
+          GITREPO_URL = "github.com/nkhare/rsvpapp-kustomize"
       }
       container('argo-cd') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
