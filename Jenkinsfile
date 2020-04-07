@@ -29,13 +29,22 @@ volumes: [
       }
     }
     stage('Deploy to Staging') {
+        environment {
+           GITREPO_URL = "https://github.com/nkhare/rsvpapp-kustomize"
+           GITREPO_EMAIL = 'neependra.khare@gmail.com'
+           GITREPO_BRANCH = "master" 
+        }
       container('argo-cd') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'githubcred',
           usernameVariable: 'GITHUB_USER',
           passwordVariable: 'GITHUB_PASSWORD']]) {
           sh """
-            echo  ${GITHUB_USER} 
+            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@${env.GITREPO_URL}"
+            git config --global user.email ${env.GITREPO_EMAIL}
+            git checkout ${env.GITREPO_BRANCH}
+            cd ./overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}
+            git commit -am 'Publish new version' && git push || echo 'no changes'
              """
         }
       }
