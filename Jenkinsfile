@@ -4,19 +4,13 @@ pipeline {
                         label 'jenkins-slave'
                 }
         }
-        environment {
-                IMAGE_REPO = "nkhare/rsvp-demo"
-                        // Instead of teamcloudyuga, use your repo name
-        }
+      
         stages {
 
                         stage('Build') {
-                                environment {
-                                        DOCKERHUB_CREDS = credentials('dockerhub')
 
-                                }
                                 steps {
-                                        container('dind') {
+                                        container('docker1') {
                                                sh """
                                                   date
                                                   """
