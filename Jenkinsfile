@@ -13,7 +13,7 @@ volumes: [
     def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
-    def kustomizeRepo = checkout 'github.com/nkhare/rsvpapp-kustomize'
+    def kustomizeRepo = "github.com/nkhare/rsvpapp-kustomize"
     def userEmail = "neependra.khare@gmail.com"
 
     stage('Create Docker images') {
@@ -40,8 +40,8 @@ volumes: [
           usernameVariable: 'GITHUB_USER',
           passwordVariable: 'GITHUB_PASSWORD']]) {
           sh """
-            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@github.com/nkhare/rsvpapp-kustomize
-            git config --global user.email neependra.khare@gmail.com
+            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@${env.kustomizeRepo}
+            git config --global user.email ${env.userEmail}
             cd rsvpapp-kustomize/overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}
             git add . 
             git commit -am 'Publish new version' && git push || echo 'no changes'
