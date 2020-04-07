@@ -70,7 +70,7 @@ spec:
       steps {
         input message:'Approve deployment?'
         container('tools') {
-          dir("kustomize-demo") {
+          dir("rsvpapp-kustomize") {
               sh "cd ./overlays/prod && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
