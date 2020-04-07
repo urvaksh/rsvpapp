@@ -30,21 +30,14 @@ volumes: [
       }
     }
     stage('Deploy to Staging') {
-      environment {
-          GITREPO_URL = "github.com/nkhare/rsvpapp-kustomize"
-          userEmail = "neependra.khare@gmail.com"
-      }
       container('argo-cd') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'githubcred',
           usernameVariable: 'GITHUB_USER',
           passwordVariable: 'GITHUB_PASSWORD']]) {
           sh """
-            echo $userEmail
-            echo $GITREPO_URL
-            echo "%%%%%%"
-            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@$GITREPO_URL
-            git config --global user.email $userEmail
+            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@$github.com/nkhare/rsvpapp-kustomize
+            git config --global user.email neependra.khare@gmail.com
             cd rsvpapp-kustomize/overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}
             git add . 
             git commit -am 'Publish new version' && git push || echo 'no changes'
