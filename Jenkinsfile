@@ -5,7 +5,7 @@ pipeline {
         }
     }
   environment {
-      IMAGE_REPO = "atul7cloudyuga/rsvp-demo"
+      IMAGE_REPO = "nkhare/rsvp-demo"
   }
   stages {
 
