@@ -40,7 +40,7 @@ volumes: [
           usernameVariable: 'GITHUB_USER',
           passwordVariable: 'GITHUB_PASSWORD']]) {
           sh """
-            echo ${env.GITREPO_URL}
+            echo "${env.GITREPO_URL}"
             echo "$$$$$$$$$$$"
             git clone https://$GITHUB_USER:$GITHUB_PASSWORD@${env.GITREPO_URL}
             git config --global user.email ${env.GITREPO_EMAIL}
