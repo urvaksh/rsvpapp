@@ -58,7 +58,6 @@ spec:
         container('tools') {
             sh "git clone https://$GIT_CREDS_USR:$GIT_CREDS_PSW@${env.GIT_REPO_URL}"
             sh "git config --global user.email ${env.GIT_REPO_EMAIL}"
- 
           dir("rsvpapp-kustomize") {
               sh "git checkout ${env.GIT_REPO_BRANCH}"
               sh "cd ./overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}"
