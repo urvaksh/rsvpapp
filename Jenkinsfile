@@ -36,12 +36,8 @@ volumes: [
           usernameVariable: 'GITHUB_USER',
           passwordVariable: 'GITHUB_PASSWORD']]) {
           sh """
-            export KUSTOMIZE_REPO=github.com/nkhare/rsvpapp-kustomize
-            export USER_EMAIL=neependra.khare@gmail.com
-            echo $KUSTOMIZE_REPO
-            echo "######"
-            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@$KUSTOMIZE_REPO
-            git config --global user.email $USER_EMAIL
+            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@github.com/nkhare/rsvpapp-kustomize
+            git config --global user.email "neependra.khare@gmail.com"
             cd rsvpapp-kustomize/overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}
             git add . 
             git commit -am 'Publish new version' && git push || echo 'no changes'
