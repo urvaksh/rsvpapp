@@ -38,7 +38,7 @@ volumes: [
           sh """
             git clone https://$GITHUB_USER:$GITHUB_PASSWORD@github.com/nkhare/rsvpapp-kustomize
             git config --global user.email "neependra.khare@gmail.com"
-            cd rsvpapp-kustomize/overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}
+            cd rsvpapp-kustomize/overlays/staging && kustomize edit set image ${DOCKER_HUB_USER}/rsvp-demo:${gitCommit}
             git add . 
             git commit -am 'Publish new version' && git push || echo 'no changes'
              """
