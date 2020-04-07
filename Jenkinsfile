@@ -1,8 +1,8 @@
 def label = "worker-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, containers: [
-  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'docker', image: 'docker:18.09', command: 'cat', ttyEnabled: true, envVars: [envVar(key: 'DOCKER_HOST', value: '127.0.0.1')]),
+  containerTemplate(name: 'dind', image: '18.09-dind', ttyEnabled: true, privileged: true)
 ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
