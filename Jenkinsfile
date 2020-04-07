@@ -39,8 +39,7 @@ volumes: [
           passwordVariable: 'GITHUB_PASSWORD']]) {
           sh """
             git clone https://$GITHUB_USER:$GITHUB_PASSWORD@github.com/nkhare/rsvpapp-kustomize
-            git config --global user.email ${env.GITREPO_EMAIL}
-            git checkout ${env.GITREPO_BRANCH}
+            git config --global user.email neependra.khare@gmail.com
             cd ./overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}
             git commit -am 'Publish new version' && git push || echo 'no changes'
              """
