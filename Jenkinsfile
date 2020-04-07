@@ -17,7 +17,9 @@ pipeline {
                                 }
                                 steps {
                                         container('docker') {
-                                                sh "echo '#####'"
+                                               sh """
+                                                  date
+                                                  """
                                                 // Build new image
                                                 //sh "until docker ps; do sleep 3; done && docker build -t  ${env.IMAGE_REPO}:${env.GIT_COMMIT} ."
                                                         // Publish new image
