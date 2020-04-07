@@ -33,7 +33,7 @@ spec:
       // Instead of nkhare, use your repo name
   }
   stages {
-     stage('Build') {
+    stage('Build') {
       environment {
         DOCKERHUB_CREDS = credentials('dockerhub')
        }
