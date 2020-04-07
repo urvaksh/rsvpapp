@@ -14,34 +14,17 @@ volumes: [
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
-
-    stage('Create Docker images') {
-      container('docker') {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding',
-          credentialsId: 'dockerhub',
-          usernameVariable: 'DOCKER_HUB_USER',
-          passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
-          sh """
-            docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-            docker build -t ${DOCKER_HUB_USER}/rsvp-demo:${gitCommit} .
-            docker push ${DOCKER_HUB_USER}/rsvp-demo:${gitCommit}
-            """
-        }
+  
+    stage('Build') {
+      environment {
+        DOCKERHUB_CREDS = credentials('dockerhub')
       }
-    }
-    stage('Deploy to Staging') {
-      container('argo-cd') {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding',
-          credentialsId: 'githubcred',
-          usernameVariable: 'GITHUB_USER',
-          passwordVariable: 'GITHUB_PASSWORD']]) {
-          sh """
-            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@github.com/nkhare/rsvpapp-kustomize
-            git config --global user.email "neependra.khare@gmail.com"
-            cd rsvpapp-kustomize/overlays/staging && kustomize edit set image ${DOCKER_HUB_USER}/rsvp-demo:${gitCommit}
-            git add . 
-            git commit -am 'Publish new version' && git push || echo 'no changes'
-             """
+      steps {
+        container('docker') {
+          // Build new image
+          sh "until docker ps; do sleep 3; done && docker build -t  ${env.IMAGE_REPO}:${env.GIT_COMMIT} ."
+          // Publish new image
+          sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push ${env.IMAGE_REPO}:${env.GIT_COMMIT}"
         }
       }
     }
