@@ -38,9 +38,7 @@ volumes: [
           usernameVariable: 'GITHUB_USER',
           passwordVariable: 'GITHUB_PASSWORD']]) {
           sh """
-            echo "${env.GITREPO_URL}"
-            echo "$$$$$$$$$$$"
-            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@${env.GITREPO_URL}
+            git clone https://$GITHUB_USER:$GITHUB_PASSWORD@github.com/nkhare/rsvpapp-kustomize
             git config --global user.email ${env.GITREPO_EMAIL}
             git checkout ${env.GITREPO_BRANCH}
             cd ./overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}
