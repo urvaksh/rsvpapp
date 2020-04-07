@@ -13,8 +13,8 @@ volumes: [
     def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
-    def kustomizeRepo = "github.com/nkhare/rsvpapp-kustomize"
-    def userEmail = "neependra.khare@gmail.com"
+    def kustomizeRepo = 'github.com/nkhare/rsvpapp-kustomize'
+    def userEmail = 'neependra.khare@gmail.com'
 
     stage('Create Docker images') {
       container('docker') {
