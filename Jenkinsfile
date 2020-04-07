@@ -36,7 +36,7 @@ spec:
     stage('Build') {
       environment {
         DOCKERHUB_CREDS = credentials('dockerhub')
-       }
+      }
       steps {
         container('docker') {
           // Build new image
