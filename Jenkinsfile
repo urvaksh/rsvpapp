@@ -16,7 +16,7 @@ pipeline {
 
                                 }
                                 steps {
-                                        container('docker') {
+                                        container('jnlp') {
                                                sh """
                                                   date
                                                   """
