@@ -46,7 +46,7 @@ spec:
         }
       }
     }
-    stage('Deploy staging') {
+    stage('Deploy staging') {
       environment {
         GIT_CREDS = credentials('github')
         GIT_REPO_URL = "github.com/nkhare/rsvpapp-kustomize.git"
