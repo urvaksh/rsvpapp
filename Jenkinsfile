@@ -14,14 +14,12 @@ pipeline {
         DOCKERHUB_CREDS = credentials('dockerhub')
         
       }
-      steps {
-        container('docker') {
+      container('docker') {
           // Build new image
-          sh """
-             pwd
-             docker image ls 
-             """
-        }
+        sh """
+           pwd
+           docker image ls 
+           """
       }
     }
   }
