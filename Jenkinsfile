@@ -1,7 +1,8 @@
 def label = "worker-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, containers: [
-  containerTemplate(name: 'docker', image: 'docker:18.09', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'docker', image: 'docker:18.09', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'argo-cd', image: 'argoproj/argo-cd-ci-builder:v1.0.0', command: 'cat', ttyEnabled: true)
 ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
@@ -24,6 +25,18 @@ volumes: [
             docker build -t nkhare/rsvp-demo:${gitCommit} .
             docker push nkhare/rsvp-demo:${gitCommit}
             """
+        }
+      }
+    }
+    stage('Deploy to Staging') {
+      container('argo-cd') {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+          credentialsId: 'githubcred',
+          usernameVariable: 'GITHUB_USER',
+          passwordVariable: 'GITHUB_PASSWORD']]) {
+          sh """
+            echo  ${GITHUB_USER} 
+             """
         }
       }
     }
