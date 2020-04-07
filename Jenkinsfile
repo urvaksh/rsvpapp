@@ -29,7 +29,7 @@ spec:
         }
     }
   environment {
-      IMAGE_REPO = "nkhare/rsvp-demo"
+      IMAGE_REPO = "nkhare/rsvpapp"
       // Instead of nkhare, use your repo name
   }
   stages {
