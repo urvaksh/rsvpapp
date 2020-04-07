@@ -22,7 +22,7 @@ volumes: [
           passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
           sh """
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-            docker build -t namespace/my-image:${gitCommit} .
+            docker build -t nkhare/rsvp-demo:${gitCommit} .
             docker push nkhare/rsvp-demo:${gitCommit}
             """
         }
