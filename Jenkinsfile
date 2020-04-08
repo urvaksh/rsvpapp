@@ -60,7 +60,7 @@ spec:
             sh "git config --global user.email ${env.GIT_REPO_EMAIL}"
           dir("rsvpapp-kustomize") {
               sh "git checkout ${env.GIT_REPO_BRANCH}"
-              sh "cd ./overlays/staging && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}"
+              sh "cd ./overlays/staging && kustomize edit set image teamcloudyuga/rsvpapp=${env.IMAGE_REPO}:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
@@ -71,7 +71,7 @@ spec:
         input message:'Approve deployment?'
         container('tools') {
           dir("rsvpapp-kustomize") {
-              sh "cd ./overlays/prod && kustomize edit set image ${env.IMAGE_REPO}:${env.GIT_COMMIT}"
+              sh "cd ./overlays/prod && kustomize edit set image teamcloudyuga/rsvpapp=${env.IMAGE_REPO}:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
